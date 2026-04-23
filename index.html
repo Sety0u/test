@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0f172a" />
+  <title>Итоговый тест по теме «Плоскостная разметка металла и опиливание»</title>
+  <style>
+    :root{
+      --bg1:#eef4ff;
+      --bg2:#f8fafc;
+      --card:#ffffff;
+      --text:#0f172a;
+      --muted:#64748b;
+      --line:#dbe4f0;
+      --primary:#2563eb;
+      --primary-2:#1d4ed8;
+      --primary-soft:#e8f0ff;
+      --ok:#15803d;
+      --ok-bg:#f0fdf4;
+      --bad:#b91c1c;
+      --bad-bg:#fef2f2;
+      --shadow:0 12px 36px rgba(15,23,42,.10);
+      --radius:22px;
+      --safe-b:env(safe-area-inset-bottom, 0px);
+    }
+
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html,body{margin:0;padding:0}
+    body{
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at top, #dbeafe 0%, transparent 38%),
+        linear-gradient(180deg, var(--bg1), var(--bg2));
+      min-height:100vh;
+    }
+
+    .app{
+      max-width:760px;
+      margin:0 auto;
+      padding:18px 14px calc(92px + var(--safe-b));
+    }
+
+    .card{
+      background:rgba(255,255,255,.94);
+      backdrop-filter: blur(8px);
+      border:1px solid rgba(219,228,240,.95);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+    }
+
+    .hero{padding:22px 18px;margin-bottom:14px}
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;
+      background:var(--primary-soft);color:#1e40af;font-size:13px;font-weight:700;margin-bottom:12px;
+    }
+    h1{margin:0 0 10px;font-size:clamp(28px, 5vw, 36px);line-height:1.08;letter-spacing:-.02em}
+    .hero p{margin:0;color:var(--muted);line-height:1.55;font-size:15px}
+    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+    .chip{padding:9px 12px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:13px;color:#334155;font-weight:600}
+
+    .panel{padding:18px}
+    .progress-wrap{margin-bottom:14px}
+    .progress-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;font-size:14px;color:var(--muted);font-weight:600}
+    .progress{width:100%;height:12px;border-radius:999px;background:#e8edf5;overflow:hidden}
+    .progress > div{height:100%;width:0%;background:linear-gradient(90deg, var(--primary), #60a5fa);border-radius:999px;transition:width .25s ease}
+
+    .question{font-size:22px;line-height:1.35;letter-spacing:-.01em;margin:0 0 8px;font-weight:800}
+    .subtitle{font-size:14px;color:var(--muted);margin:0 0 16px;line-height:1.5}
+
+    .options,.match-grid,.order-grid{display:grid;gap:12px}
+    .option{
+      display:flex;gap:12px;align-items:flex-start;padding:15px 14px;border-radius:18px;border:1.5px solid var(--line);
+      background:#fff;cursor:pointer;transition:.18s ease;min-height:66px;text-align:left;justify-content:flex-start;
+    }
+    .option:hover{transform:translateY(-1px);border-color:#93c5fd;box-shadow:0 8px 18px rgba(37,99,235,.08)}
+    .option.selected{border-color:var(--primary);background:linear-gradient(180deg, #f8fbff, #eef5ff);box-shadow:0 10px 22px rgba(37,99,235,.12)}
+    .badge{
+      flex:0 0 auto;width:34px;height:34px;display:grid;place-items:center;border-radius:50%;border:1.5px solid #cbd5e1;
+      color:#475569;font-size:14px;font-weight:800;background:#fff;margin-top:1px;
+    }
+    .option.selected .badge{border-color:var(--primary);color:#fff;background:var(--primary)}
+    .option-text{font-size:16px;line-height:1.45;font-weight:600;color:#1e293b;flex:1 1 auto}
+
+    .field-card{
+      background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;
+    }
+    .field-card strong{display:block;margin-bottom:8px;font-size:15px;line-height:1.4}
+    .field-card small{display:block;margin-top:8px;color:var(--muted);line-height:1.45}
+    select{
+      width:100%;padding:13px 14px;border-radius:14px;border:1px solid #cbd5e1;background:#fff;
+      font-size:15px;color:#0f172a;outline:none;
+    }
+    select:focus{border-color:#60a5fa;box-shadow:0 0 0 3px rgba(96,165,250,.18)}
+
+    .helper{margin-top:16px;color:var(--muted);font-size:14px;line-height:1.5}
+
+    .nav{
+      position:fixed;left:0;right:0;bottom:0;padding:10px 14px calc(10px + var(--safe-b));
+      background:linear-gradient(180deg, rgba(248,250,252,.15), rgba(248,250,252,.95) 28%, rgba(248,250,252,.98));
+      backdrop-filter: blur(12px);border-top:1px solid rgba(219,228,240,.95);box-shadow:0 -10px 30px rgba(15,23,42,.06);
+    }
+    .nav-inner{max-width:760px;margin:0 auto;display:grid;grid-template-columns:1fr 1.2fr;gap:10px}
+    button{border:none;border-radius:18px;padding:16px;font-size:16px;font-weight:800;cursor:pointer;min-height:56px}
+    .btn-ghost{background:#fff;color:#0f172a;border:1px solid var(--line)}
+    .btn-primary{background:linear-gradient(180deg, var(--primary), var(--primary-2));color:#fff;box-shadow:0 12px 26px rgba(37,99,235,.28)}
+    .btn-primary:disabled{opacity:.45;box-shadow:none;cursor:not-allowed}
+
+    .result{display:none;padding:18px;margin-top:14px}
+    .result h2{margin:0 0 8px;font-size:30px;line-height:1.1;letter-spacing:-.02em}
+    .score{font-size:18px;font-weight:800;margin:0 0 8px}
+    .muted{color:var(--muted);line-height:1.55;margin:0}
+    .summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}
+    .stat{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;text-align:center}
+    .stat b{display:block;font-size:24px;margin-bottom:4px}
+    .review-toggle{margin-top:8px;width:100%;background:#fff;color:#0f172a;border:1px solid var(--line)}
+    .review{display:none;margin-top:14px;gap:10px}
+    .review.show{display:grid}
+    .review-item{padding:14px;border-radius:18px;border:1px solid var(--line);background:#fff}
+    .review-item.ok{border-color:#bbf7d0;background:var(--ok-bg)}
+    .review-item.bad{border-color:#fecaca;background:var(--bad-bg)}
+    .review-item strong{display:block;margin-bottom:8px;line-height:1.45;font-size:15px}
+    .mini{font-size:14px;line-height:1.45;color:#334155;margin-top:5px}
+
+    @media (max-width:560px){
+      .app{padding:14px 12px calc(96px + var(--safe-b))}
+      .hero{padding:18px 15px}
+      .panel,.result{padding:15px}
+      .question{font-size:20px}
+      .option{padding:14px 12px;min-height:62px}
+      .option-text{font-size:15px}
+      .nav-inner{grid-template-columns:1fr 1fr}
+      .summary{grid-template-columns:1fr 1fr}
+      .stat b{font-size:22px}
+    }
+
+    @media (min-width:761px){
+      .nav{left:50%;right:auto;width:760px;transform:translateX(-50%);border:1px solid rgba(219,228,240,.95);border-bottom:none;border-radius:22px 22px 0 0}
+      .panel{margin-bottom:22px}
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <section class="hero card">
+      <div class="eyebrow" id="attemptBadge">Попытка 1</div>
+      <h1>Итоговый тест по теме «Плоскостная разметка металла и опиливание»</h1>
+      <p>Короткий итоговый тест по теме. Внутри есть разные форматы: выбор ответа, верно/неверно, несколько правильных вариантов, восстановление последовательности и одно задание на соответствие.</p>
+      <div class="chips">
+        <span class="chip" id="totalChip">10 заданий</span>
+        <span class="chip">5 форматов вопросов</span>
+        <span class="chip">Короткий формат</span>
+      </div>
+    </section>
+
+    <section class="card panel" id="quizCard">
+      <div class="progress-wrap">
+        <div class="progress-top">
+          <span id="stepText">Задание 1 из 16</span>
+          <span id="answeredText">Заполнено: 0</span>
+        </div>
+        <div class="progress"><div id="progressBar"></div></div>
+      </div>
+
+      <h2 class="question" id="questionText"></h2>
+      <p class="subtitle" id="questionTypeText"></p>
+      <div id="taskBox"></div>
+      <div class="helper">Можно возвращаться назад. Ответы сохраняются, пока страница открыта.</div>
+    </section>
+
+    <section class="card result" id="resultBox">
+      <h2>Тест завершён</h2>
+      <p class="score" id="scoreText"></p>
+      <p class="muted" id="resultComment"></p>
+
+      <div class="summary">
+        <div class="stat"><b id="statCorrect">0</b><span>Верно</span></div>
+        <div class="stat"><b id="statWrong">0</b><span>Ошибок</span></div>
+        <div class="stat"><b id="statPercent">0%</b><span>Результат</span></div>
+        <div class="stat"><b id="statAttempts">0</b><span>Попыток</span></div>
+      </div>
+
+      <button class="review-toggle" type="button" onclick="toggleReview()">Показать разбор ответов</button>
+      <div class="review" id="reviewBox"></div>
+
+      <div style="margin-top:14px; display:grid; gap:10px;">
+        <button class="btn-primary" type="button" onclick="restartQuiz()">Пройти заново</button>
+      </div>
+    </section>
+  </div>
+
+  <div class="nav" id="navBar">
+    <div class="nav-inner">
+      <button class="btn-ghost" id="prevBtn" type="button">Назад</button>
+      <button class="btn-primary" id="nextBtn" type="button">Далее</button>
+    </div>
+  </div>
+
+  <script>
+    const questions = [
+      {
+        type: 'single',
+        label: 'Выберите один правильный ответ',
+        q: 'Что такое плоскостная разметка металла?',
+        options: [
+          'Процесс удаления слоя металла напильником',
+          'Нанесение линий и точек на одной плоскости заготовки для дальнейшей обработки',
+          'Измерение толщины микрометром',
+          'Проверка качества только после опиливания'
+        ],
+        correct: 1
+      },
+      {
+        type: 'tf',
+        label: 'Определите, верно ли утверждение',
+        q: 'Плоскостная разметка выполняется на одной плоскости, а пространственная — на нескольких плоскостях под разными углами.',
+        correct: true
+      },
+      {
+        type: 'multi',
+        label: 'Выберите все правильные ответы',
+        q: 'Что относится к требованиям техники безопасности при разметке и опиливании?',
+        options: [
+          'Использовать защитные очки и перчатки',
+          'Надёжно закреплять заготовку',
+          'Проверять шероховатость поверхности рукой',
+          'Аккуратно обращаться с острыми инструментами',
+          'Очищать напильник рукой'
+        ],
+        correct: [0, 1, 3]
+      },
+      {
+        type: 'single',
+        label: 'Выберите один правильный ответ',
+        q: 'Зачем заготовку перед разметкой могут окрашивать меловым раствором?',
+        options: [
+          'Чтобы уменьшить массу детали',
+          'Чтобы риски были заметнее и чётче',
+          'Чтобы сразу измерить толщину',
+          'Чтобы исключить применение угольника'
+        ],
+        correct: 1
+      },
+      {
+        type: 'match',
+        label: 'Установите соответствие',
+        q: 'Соотнесите тип напильника и характер обработки.',
+        left: [
+          'Драчёвый напильник',
+          'Личный напильник',
+          'Бархатный напильник'
+        ],
+        right: [
+          'Черновая обработка, точность до 0,5 мм',
+          'Чистовая обработка, точность до 0,2 мм',
+          'Финишная обработка, точность до 0,05 мм'
+        ],
+        correct: [0,1,2]
+      },
+      {
+        type: 'order',
+        label: 'Восстановите последовательность',
+        q: 'Расположите этапы плоскостной разметки в логическом порядке.',
+        items: [
+          'Определить базу разметки',
+          'Очистить и окрасить поверхность',
+          'Проверить размеры штангенциркулем и угольником',
+          'Нанести основные и вспомогательные линии',
+          'Выполнить кернение'
+        ],
+        correctOrder: [1,0,3,4,2]
+      },
+      {
+        type: 'single',
+        label: 'Выберите один правильный ответ',
+        q: 'Под каким углом рекомендуется проводить риску чертилкой?',
+        options: ['15–20°', '30–40°', '45–50°', '75–80°'],
+        correct: 3
+      },
+      {
+        type: 'case',
+        label: 'Ситуационная задача',
+        q: 'Студент после черновой обработки хочет сразу завершить работу. Какое действие будет правильным дальше?',
+        options: [
+          'Сразу проверить шероховатость рукой и закончить',
+          'Перейти к чистовой обработке личным напильником, затем выполнить окончательную обработку',
+          'Сразу убрать рабочее место, не проверяя плоскость',
+          'Нанести новый меловой раствор вместо контроля размеров'
+        ],
+        correct: 1
+      },
+      {
+        type: 'tf',
+        label: 'Определите, верно ли утверждение',
+        q: 'Штангенциркуль ШЦ-I имеет точность 0,1 мм, а микрометр МК — 0,01 мм.',
+        correct: true
+      },
+      {
+        type: 'order',
+        label: 'Восстановите последовательность',
+        q: 'Расположите этапы обработки плоской поверхности в порядке выполнения.',
+        items: [
+          'Удалить заусенцы и выполнить окончательную обработку бархатным напильником',
+          'Выбрать напильник для черновой обработки',
+          'Периодически проверить плоскость угольником',
+          'Выполнить опиливание с равномерным распределением усилия',
+          'Перейти к чистовой обработке личным напильником'
+        ],
+        correctOrder: [1,3,2,4,0]
+      }
+    ];
+
+    let current = 0;
+    let answers = Array(questions.length).fill(null);
+    let attempts = 0;
+
+    const els = {
+      attemptBadge: document.getElementById('attemptBadge'),
+      totalChip: document.getElementById('totalChip'),
+      stepText: document.getElementById('stepText'),
+      answeredText: document.getElementById('answeredText'),
+      progressBar: document.getElementById('progressBar'),
+      questionText: document.getElementById('questionText'),
+      questionTypeText: document.getElementById('questionTypeText'),
+      taskBox: document.getElementById('taskBox'),
+      prevBtn: document.getElementById('prevBtn'),
+      nextBtn: document.getElementById('nextBtn'),
+      quizCard: document.getElementById('quizCard'),
+      resultBox: document.getElementById('resultBox'),
+      navBar: document.getElementById('navBar'),
+      reviewBox: document.getElementById('reviewBox'),
+      scoreText: document.getElementById('scoreText'),
+      resultComment: document.getElementById('resultComment'),
+      statCorrect: document.getElementById('statCorrect'),
+      statWrong: document.getElementById('statWrong'),
+      statPercent: document.getElementById('statPercent'),
+      statAttempts: document.getElementById('statAttempts')
+    };
+
+    els.totalChip.textContent = `${questions.length} заданий`;
+
+    function answeredCount(){
+      return answers.filter(answer => isAnswered(answer)).length;
+    }
+
+    function isAnswered(answer){
+      if(answer === null || answer === undefined) return false;
+      if(Array.isArray(answer)) return answer.length > 0 && answer.every(v => v !== null && v !== undefined && v !== '');
+      return answer !== '';
+    }
+
+    function renderQuestion(){
+      const q = questions[current];
+      els.stepText.textContent = `Задание ${current + 1} из ${questions.length}`;
+      els.answeredText.textContent = `Заполнено: ${answeredCount()}`;
+      els.progressBar.style.width = `${((current) / questions.length) * 100}%`;
+      els.questionText.textContent = q.q;
+      els.questionTypeText.textContent = q.label;
+      els.taskBox.innerHTML = '';
+
+      if(q.type === 'single' || q.type === 'tf' || q.type === 'case') renderSingleLike(q);
+      if(q.type === 'multi') renderMulti(q);
+      if(q.type === 'match') renderMatch(q);
+      if(q.type === 'order') renderOrder(q);
+
+      els.prevBtn.disabled = current === 0;
+      els.nextBtn.textContent = current === questions.length - 1 ? 'Завершить тест' : 'Далее';
+      validateCurrent();
+    }
+
+    function renderSingleLike(q){
+      const options = q.type === 'tf' ? ['Верно', 'Неверно'] : q.options;
+      const box = document.createElement('div');
+      box.className = 'options';
+      const selected = answers[current];
+      options.forEach((option, index) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'option' + (selected === index ? ' selected' : '');
+        btn.innerHTML = `<span class="badge">${String.fromCharCode(1040 + index)}</span><span class="option-text">${option}</span>`;
+        btn.addEventListener('click', () => {
+          answers[current] = index;
+          renderQuestion();
+        });
+        box.appendChild(btn);
+      });
+      els.taskBox.appendChild(box);
+    }
+
+    function renderMulti(q){
+      const box = document.createElement('div');
+      box.className = 'options';
+      const selected = Array.isArray(answers[current]) ? answers[current] : [];
+      q.options.forEach((option, index) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'option' + (selected.includes(index) ? ' selected' : '');
+        btn.innerHTML = `<span class="badge">${selected.includes(index) ? '✓' : String.fromCharCode(1040 + index)}</span><span class="option-text">${option}</span>`;
+        btn.addEventListener('click', () => {
+          const currentSelected = Array.isArray(answers[current]) ? [...answers[current]] : [];
+          const pos = currentSelected.indexOf(index);
+          if(pos >= 0){
+            currentSelected.splice(pos, 1);
+          } else {
+            currentSelected.push(index);
+          }
+          answers[current] = currentSelected.sort((a, b) => a - b);
+          renderQuestion();
+        });
+        box.appendChild(btn);
+      });
+      els.taskBox.appendChild(box);
+    }
+
+    function renderMatch(q){
+      const grid = document.createElement('div');
+      grid.className = 'match-grid';
+      const currentAnswer = Array.isArray(answers[current]) ? answers[current] : Array(q.left.length).fill('');
+      q.left.forEach((leftItem, index) => {
+        const card = document.createElement('div');
+        card.className = 'field-card';
+        const select = document.createElement('select');
+        const placeholder = document.createElement('option');
+        placeholder.value = '';
+        placeholder.textContent = 'Выберите вариант';
+        select.appendChild(placeholder);
+        q.right.forEach((rightItem, rightIndex) => {
+          const option = document.createElement('option');
+          option.value = String(rightIndex);
+          option.textContent = rightItem;
+          if(String(currentAnswer[index]) === String(rightIndex)) option.selected = true;
+          select.appendChild(option);
+        });
+        select.addEventListener('change', (e) => {
+          const updated = Array.isArray(answers[current]) ? [...answers[current]] : Array(q.left.length).fill('');
+          updated[index] = e.target.value;
+          answers[current] = updated;
+          validateCurrent();
+          els.answeredText.textContent = `Заполнено: ${answeredCount()}`;
+        });
+        card.innerHTML = `<strong>${index + 1}. ${leftItem}</strong>`;
+        card.appendChild(select);
+        grid.appendChild(card);
+      });
+      els.taskBox.appendChild(grid);
+    }
+
+    function renderOrder(q){
+      const grid = document.createElement('div');
+      grid.className = 'order-grid';
+      const currentAnswer = Array.isArray(answers[current]) ? answers[current] : Array(q.items.length).fill('');
+      q.items.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'field-card';
+        const select = document.createElement('select');
+        const placeholder = document.createElement('option');
+        placeholder.value = '';
+        placeholder.textContent = 'Выберите номер шага';
+        select.appendChild(placeholder);
+        for(let i = 1; i <= q.items.length; i++){
+          const option = document.createElement('option');
+          option.value = String(i);
+          option.textContent = `Шаг ${i}`;
+          if(String(currentAnswer[index]) === String(i)) option.selected = true;
+          select.appendChild(option);
+        }
+        select.addEventListener('change', (e) => {
+          const updated = Array.isArray(answers[current]) ? [...answers[current]] : Array(q.items.length).fill('');
+          updated[index] = e.target.value;
+          answers[current] = updated;
+          validateCurrent();
+          els.answeredText.textContent = `Заполнено: ${answeredCount()}`;
+        });
+        card.innerHTML = `<strong>${item}</strong><small>Укажите, каким по счёту должен идти этот этап.</small>`;
+        card.appendChild(select);
+        grid.appendChild(card);
+      });
+      els.taskBox.appendChild(grid);
+    }
+
+    function validateCurrent(){
+      els.nextBtn.disabled = !isAnswered(answers[current]);
+    }
+
+    function normalizeAnswer(q, answer){
+      if(q.type === 'single' || q.type === 'tf' || q.type === 'case') return answer;
+      if(q.type === 'multi') return [...answer].sort((a, b) => a - b);
+      if(q.type === 'match') return answer.map(v => Number(v));
+      if(q.type === 'order') return answer.map(v => Number(v) - 1);
+      return answer;
+    }
+
+    function isCorrect(q, answer){
+      if(!isAnswered(answer)) return false;
+      const normalized = normalizeAnswer(q, answer);
+      if(q.type === 'single' || q.type === 'case') return normalized === q.correct;
+      if(q.type === 'tf') return (normalized === 0) === q.correct;
+      if(q.type === 'multi') return normalized.length === q.correct.length && normalized.every((v, i) => v === q.correct[i]);
+      if(q.type === 'match') return normalized.every((v, i) => v === q.correct[i]);
+      if(q.type === 'order') return normalized.every((v, i) => v === q.correctOrder[i]);
+      return false;
+    }
+
+    function correctText(q){
+      if(q.type === 'single' || q.type === 'case') return q.options[q.correct];
+      if(q.type === 'tf') return q.correct ? 'Верно' : 'Неверно';
+      if(q.type === 'multi') return q.correct.map(index => q.options[index]).join('<br>');
+      if(q.type === 'match') return q.left.map((left, i) => `${left} → ${q.right[q.correct[i]]}`).join('<br>');
+      if(q.type === 'order') {
+        return q.correctOrder
+          .map((originalIndex, stepIndex) => `${stepIndex + 1}. ${q.items[originalIndex]}`)
+          .join('<br>');
+      }
+      return '';
+    }
+
+    function userText(q, answer){
+      if(!isAnswered(answer)) return 'Нет ответа';
+      const normalized = normalizeAnswer(q, answer);
+      if(q.type === 'single' || q.type === 'case') return q.options[normalized];
+      if(q.type === 'tf') return normalized === 0 ? 'Верно' : 'Неверно';
+      if(q.type === 'multi') return normalized.map(index => q.options[index]).join('<br>');
+      if(q.type === 'match') return normalized.map((v, i) => `${q.left[i]} → ${q.right[v]}`).join('<br>');
+      if(q.type === 'order') {
+        return normalized
+          .map((v, i) => ({ position: v + 1, text: q.items[i] }))
+          .sort((a, b) => a.position - b.position)
+          .map(item => `${item.position}. ${item.text}`)
+          .join('<br>');
+      }
+      return '';
+    }
+
+    function getComment(percent){
+      if(percent === 100) return 'Отличный результат. Материал по разметке и опиливанию усвоен полностью.';
+      if(percent >= 80) return 'Очень хороший результат. Ошибок немного, основные приёмы и инструменты усвоены.';
+      if(percent >= 60) return 'Неплохо. Стоит ещё раз повторить последовательность операций, точность измерений и типичные ошибки.';
+      return 'Нужно повторить материал: инструменты, технику безопасности, этапы разметки и обработку напильниками.';
+    }
+
+    function finishQuiz(){
+      attempts += 1;
+      els.attemptBadge.textContent = `Попытка ${attempts}`;
+      const correct = questions.reduce((sum, q, i) => sum + (isCorrect(q, answers[i]) ? 1 : 0), 0);
+      const wrong = questions.length - correct;
+      const percent = Math.round((correct / questions.length) * 100);
+
+      els.quizCard.style.display = 'none';
+      els.navBar.style.display = 'none';
+      els.resultBox.style.display = 'block';
+
+      els.scoreText.textContent = `Ваш результат: ${correct} из ${questions.length}`;
+      els.resultComment.textContent = getComment(percent);
+      els.statCorrect.textContent = correct;
+      els.statWrong.textContent = wrong;
+      els.statPercent.textContent = `${percent}%`;
+      els.statAttempts.textContent = attempts;
+
+      els.reviewBox.innerHTML = questions.map((q, i) => {
+        const ok = isCorrect(q, answers[i]);
+        return `
+          <div class="review-item ${ok ? 'ok' : 'bad'}">
+            <strong>${i + 1}. ${q.q}</strong>
+            <div class="mini"><b>Ваш ответ:</b><br>${userText(q, answers[i])}</div>
+            <div class="mini"><b>Правильный ответ:</b><br>${correctText(q)}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function toggleReview(){
+      els.reviewBox.classList.toggle('show');
+    }
+
+    function restartQuiz(){
+      current = 0;
+      answers = Array(questions.length).fill(null);
+      els.quizCard.style.display = 'block';
+      els.navBar.style.display = 'block';
+      els.resultBox.style.display = 'none';
+      els.reviewBox.classList.remove('show');
+      renderQuestion();
+    }
+
+    els.prevBtn.addEventListener('click', () => {
+      if(current > 0){
+        current -= 1;
+        renderQuestion();
+      }
+    });
+
+    els.nextBtn.addEventListener('click', () => {
+      if(current === questions.length - 1){
+        finishQuiz();
+      } else {
+        current += 1;
+        renderQuestion();
+      }
+    });
+
+    renderQuestion();
+  </script>
+</body>
+</html>
